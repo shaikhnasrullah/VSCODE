@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Practical Codes - VS Code Style</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: #1e1e1e;
+    color: #cccccc;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* =========================
+   MAIN VS CODE LAYOUT
+========================= */
+
+.app {
+    height: calc(100vh - 22px);
+    display: flex;
+}
+
+/* =========================
+   ACTIVITY BAR
+========================= */
+
+.activity-bar {
+    width: 48px;
+    height: 100%;
+    background: #18152f;
+    border-right: 1px solid #302d4d;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.activity-top {
+    width: 100%;
+}
+
+.activity-bottom {
+    width: 100%;
+    margin-top: auto;
+}
+
+.activity-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #85839a;
+    font-size: 22px;
+
+    cursor: pointer;
+    position: relative;
+
+    border: none;
+    background: transparent;
+}
+
+.activity-icon:hover {
+    color: #ffffff;
+}
+
+.activity-icon.active {
+    color: #ffffff;
+}
+
+.activity-icon.active::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 2px;
+    height: 100%;
+
+    background: #ffffff;
+}
+
+/* =========================
+   SIDE PANEL
+========================= */
+
+.side-panel {
+    width: 245px;
+    height: 100%;
+
+    background: #211e3b;
+    border-right: 1px solid #35314f;
+}
+
+.panel-title {
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 20px;
+
+    font-size: 11px;
+    letter-spacing: 0.5px;
+
+    color: #d5d2df;
+}
+
+.section-title {
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 12px;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    color: #ddd9e8;
+
+    cursor: pointer;
+}
+
+.arrow {
+    font-size: 10px;
+    margin-right: 5px;
+}
+
+/* =========================
+   PRACTICAL LIST
+========================= */
+
+.practical-list {
+    padding-top: 2px;
+}
+
+.practical {
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 24px;
+
+    font-size: 13px;
+
+    color: #c8c5d7;
+
+    cursor: pointer;
+
+    border: none;
+    background: transparent;
+
+    width: 100%;
+
+    text-align: left;
+}
+
+.practical:hover {
+    background: #302c51;
+    color: #ffffff;
+}
+
+.practical.active {
+    background: #3a365d;
+    color: #ffffff;
+}
+
+.file-icon {
+    margin-right: 8px;
+    font-size: 13px;
+}
+
+/* =========================
+   EDITOR AREA
+========================= */
+
+.editor-container {
+    flex: 1;
+    min-width: 0;
+
+    background: #211f3c;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tabs */
+
+.tabs {
+    height: 38px;
+
+    display: flex;
+
+    background: #1b1933;
+
+    border-bottom: 1px solid #302d4a;
+}
+
+.tab {
+    min-width: 150px;
+    height: 38px;
+
+    padding: 0 14px;
+
+    display: flex;
+    align-items: center;
+
+    background: #252244;
+
+    border-right: 1px solid #302d4a;
+
+    color: #d4d1df;
+
+    font-size: 13px;
+}
+
+.tab.active {
+    background: #211f3c;
+    color: #ffffff;
+
+    border-top: 1px solid #8c82ff;
+}
+
+.tab-icon {
+    margin-right: 8px;
+    color: #65a9ff;
+}
+
+.close {
+    margin-left: auto;
+    font-size: 14px;
+    color: #85829a;
+}
+
+/* =========================
+   BREADCRUMB
+========================= */
+
+.breadcrumb {
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 18px;
+
+    font-size: 12px;
+
+    color: #85829b;
+
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+}
+
+.breadcrumb span {
+    margin-right: 7px;
+}
+
+/* =========================
+   CODE EDITOR
+========================= */
+
+.editor {
+    flex: 1;
+
+    display: flex;
+
+    overflow: hidden;
+
+    background: #211f3c;
+}
+
+.line-numbers {
+    width: 55px;
+
+    padding-top: 15px;
+
+    text-align: right;
+    padding-right: 15px;
+
+    color: #68657c;
+
+    font-family: Consolas, monospace;
+    font-size: 13px;
+
+    line-height: 21px;
+
+    user-select: none;
+}
+
+.code-wrapper {
+    flex: 1;
+
+    padding: 15px 20px 20px 10px;
+
+    overflow: auto;
+}
+
+textarea {
+    width: 100%;
+    height: 100%;
+
+    border: none;
+    outline: none;
+    resize: none;
+
+    background: transparent;
+
+    color: #d4d4d4;
+
+    font-family: Consolas, "Courier New", monospace;
+
+    font-size: 14px;
+
+    line-height: 21px;
+
+    white-space: pre;
+
+    tab-size: 4;
+}
+
+textarea::placeholder {
+    color: #65627b;
+}
+
+/* =========================
+   WELCOME SCREEN
+========================= */
+
+.welcome {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+
+    color: #77738e;
+
+    pointer-events: none;
+}
+
+.welcome h1 {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    font-size: 13px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+
+    right: 25px;
+    bottom: 45px;
+
+    background: #333052;
+
+    color: white;
+
+    padding: 9px 15px;
+
+    border-radius: 4px;
+
+    font-size: 13px;
+
+    opacity: 0;
+
+    transform: translateY(10px);
+
+    transition: 0.2s;
+
+    pointer-events: none;
+
+    z-index: 100;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================
+   STATUS BAR
+========================= */
+
+.status-bar {
+    height: 22px;
+
+    background: #242044;
+
+    color: #b5b1d1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 10px;
+
+    font-size: 11px;
+}
+
+.status-left,
+.status-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .side-panel {
+        width: 190px;
+    }
+
+    .tab {
+        min-width: 120px;
+    }
+
+    .breadcrumb {
+        padding-left: 10px;
+    }
+
+    .code-wrapper {
+        padding-left: 5px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     APPLICATION
+========================= -->
+
+<div class="app">
+
+    <!-- =====================
+         ACTIVITY BAR
+    ====================== -->
+
+    <div class="activity-bar">
+
+        <div class="activity-top">
+
+            <!-- Explorer -->
+            <button
+                class="activity-icon active"
+                onclick="openExplorer()"
+                title="Explorer">
+                ▣
+            </button>
+
+            <!-- Search -->
+            <button
+                class="activity-icon"
+                title="Search">
+                ⌕
+            </button>
+
+            <!-- Source Control -->
+            <button
+                class="activity-icon"
+                title="Source Control">
+                ⑂
+            </button>
+
+            <!-- Run -->
+            <button
+                class="activity-icon"
+                title="Run and Debug">
+                ▷
+            </button>
+
+            <!-- Extensions -->
+            <button
+                class="activity-icon"
+                title="Extensions">
+                ⊞
+            </button>
+
+        </div>
+
+        <div class="activity-bottom">
+
+            <button
+                class="activity-icon"
+                title="Accounts">
+                ◉
+            </button>
+
+            <button
+                class="activity-icon"
+                title="Settings">
+                ⚙
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================
+         EXPLORER
+    ====================== -->
+
+    <div class="side-panel" id="sidePanel">
+
+        <div class="panel-title">
+            EXPLORER
+        </div>
+
+        <div class="section-title">
+            <span class="arrow">▼</span>
+            PRACTICALS
+        </div>
+
+        <div class="practical-list">
+
+            <button
+                class="practical active"
+                onclick="selectPractical(1)">
+                <span class="file-icon">▱</span>
+                Practical 1
+            </button>
+
+            <button
+                class="practical"
+                onclick="selectPractical(2)">
+                <span class="file-icon">▱</span>
+                Practical 2
+            </button>
+
+            <button
+                class="practical"
+                onclick="selectPractical(3)">
+                <span class="file-icon">▱</span>
+                Practical 3
+            </button>
+
+            <button
+                class="practical"
+                onclick="selectPractical(4)">
+                <span class="file-icon">▱</span>
+                Practical 4
+            </button>
+
+            <button
+                class="practical"
+                onclick="selectPractical(5)">
+                <span class="file-icon">▱</span>
+                Practical 5
+            </button>
+
+            <button
+                class="practical"
+                onclick="selectPractical(6)">
+                <span class="file-icon">▱</span>
+                Practical 6
+            </button>
+
+            <button
+                class="practical"
+                onclick="selectPractical(7)">
+                <span class="file-icon">▱</span>
+                Practical 7
+            </button>
+
+            <button
+                class="practical"
+                onclick="selectPractical(8)">
+                <span class="file-icon">▱</span>
+                Practical 8
+            </button>
+
+            <button
+                class="practical"
+                onclick="selectPractical(9)">
+                <span class="file-icon">▱</span>
+                Practical 9
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================
+         EDITOR
+    ====================== -->
+
+    <div class="editor-container">
+
+        <!-- Tabs -->
+
+        <div class="tabs">
+
+            <div class="tab active">
+
+                <span class="tab-icon">◇</span>
+
+                <span id="tabName">
+                    Practical 1
+                </span>
+
+                <span class="close">
+                    ×
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Breadcrumb -->
+
+        <div class="breadcrumb">
+
+            <span>Practicals</span>
+            <span>›</span>
+
+            <span id="breadcrumbName">
+                Practical 1
+            </span>
+
+        </div>
+
+
+        <!-- Editor -->
+
+        <div class="editor">
+
+            <div
+                class="line-numbers"
+                id="lineNumbers">
+                1
+            </div>
+
+            <div class="code-wrapper">
+
+                <textarea
+                    id="codeArea"
+                    spellcheck="false"
+                    placeholder="// Your practical code will appear here..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     STATUS BAR
+========================= -->
+
+<div class="status-bar">
+
+    <div class="status-left">
+
+        <span>⎇ main</span>
+        <span>✓</span>
+        <span>⚠ 0</span>
+        <span>ⓘ 0</span>
+
+    </div>
+
+    <div class="status-right">
+
+        <span id="lineInfo">
+            Ln 1, Col 1
+        </span>
+
+        <span>Spaces: 4</span>
+
+        <span>UTF-8</span>
+
+        <span>CRLF</span>
+
+        <span>HTML</span>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     COPY MESSAGE
+========================= -->
+
+<div class="toast" id="toast">
+    Practical Copied ✓
+</div>
+
+
+<script>
+
+/* =====================================================
+   PUT YOUR PRACTICAL CODES HERE
+===================================================== */
+
+const practiceCodes = {
+
+    1: `PASTE PRACTICAL 1 CODE HERE`,
+
+    2: `PASTE PRACTICAL 2 CODE HERE`,
+
+    3: `PASTE PRACTICAL 3 CODE HERE`,
+
+    4: `PASTE PRACTICAL 4 CODE HERE`,
+
+    5: `PASTE PRACTICAL 5 CODE HERE`,
+
+    6: `PASTE PRACTICAL 6 CODE HERE`,
+
+    7: `PASTE PRACTICAL 7 CODE HERE`,
+
+    8: `PASTE PRACTICAL 8 CODE HERE`,
+
+    9: `PASTE PRACTICAL 9 CODE HERE`
+
+};
+
+
+/* =====================================================
+   SELECT PRACTICAL
+===================================================== */
+
+function selectPractical(number) {
+
+    const code = practiceCodes[number];
+
+    /* Show code */
+
+    document.getElementById("codeArea").value = code;
+
+
+    /* Change tab */
+
+    document.getElementById("tabName").innerText =
+        "Practical " + number;
+
+
+    /* Change breadcrumb */
+
+    document.getElementById("breadcrumbName").innerText =
+        "Practical " + number;
+
+
+    /* Active practical */
+
+    const buttons =
+        document.querySelectorAll(".practical");
+
+    buttons.forEach(button => {
+        button.classList.remove("active");
+    });
+
+    buttons[number - 1].classList.add("active");
+
+
+    /* Update line numbers */
+
+    updateLineNumbers();
+
+
+    /* Copy code */
+
+    copyToClipboard(code, number);
+}
+
+
+/* =====================================================
+   COPY
+===================================================== */
+
+function copyToClipboard(code, number) {
+
+    navigator.clipboard.writeText(code)
+
+    .then(() => {
+
+        showToast(
+            "Practical " + number + " Copied ✓"
+        );
+
+    })
+
+    .catch(() => {
+
+        const textarea =
+            document.getElementById("codeArea");
+
+        textarea.focus();
+        textarea.select();
+
+        document.execCommand("copy");
+
+        showToast(
+            "Practical " + number + " Copied ✓"
+        );
+    });
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 1500);
+}
+
+
+/* =====================================================
+   LINE NUMBERS
+===================================================== */
+
+function updateLineNumbers() {
+
+    const textarea =
+        document.getElementById("codeArea");
+
+    const lineNumbers =
+        document.getElementById("lineNumbers");
+
+    const lines =
+        textarea.value.split("\n").length;
+
+    let output = "";
+
+    for (let i = 1; i <= lines; i++) {
+        output += i + "<br>";
+    }
+
+    lineNumbers.innerHTML = output;
+}
+
+
+/* =====================================================
+   UPDATE LINE NUMBERS WHILE TYPING
+===================================================== */
+
+document
+    .getElementById("codeArea")
+    .addEventListener("input", updateLineNumbers);
+
+
+/* =====================================================
+   START WITH PRACTICAL 1
+===================================================== */
+
+document.getElementById("codeArea").value =
+    practiceCodes[1];
+
+updateLineNumbers();
+
+</script>
+
+</body>
+</html>
