@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Learn · CodeChat</title><link rel="stylesheet" href="css/style.css"></head>
+<body><main class="wrap"><h1>Learn CodeChat</h1><p id="welcome" class="card" hidden>Welcome to CodeChat! Learn the language before chatting. <a class="btn" href="#alpha">Start Learning</a> <a class="btn ghost" href="chat.html">Skip for Now</a></p>
+<div id="alpha"></div>
+<section class="card"><h2>Practice Encoding</h2><input id="t" placeholder="Type something..." aria-label="Text to encode"><p>CodeChat version:<br><span class="code" id="o1"></span></p>
+<input id="n" placeholder="Enter CodeChat numbers..." aria-label="Numbers to decode"><p>Normal text:<br><b id="o2"></b></p></section>
+<section class="card"><h2>Quiz</h2><p id="q"></p><div id="opts" class="map"></div><p id="fb" role="status"></p><p>Language Progress: <b id="pr">0%</b></p></section>
+<a class="btn ghost" href="chat.html">Messenger</a> <a class="btn ghost" href="index.html">Home</a></main>
+<script type="module">import{languageMap,encodeMessage,decodeMessage}from"./js/language.js";
+if(location.search.includes("welcome"))welcome.hidden=false;
+const L=Object.keys(languageMap),g=(a,b,t)=>`<div class="card"><h3>${t}</h3><div class="map">${L.slice(a,b).map(l=>`<span>${l}<b>${languageMap[l]}</b></span>`).join("")}</div></div>`;
+alpha.innerHTML=g(0,10,"Pattern A · countdown")+g(10,20,"Pattern B · position (K=11 …)")+g(20,26,"Pattern C · step pattern");
+t.oninput=()=>o1.textContent=encodeMessage(t.value);n.oninput=()=>o2.textContent=decodeMessage(n.value);
+let ok=0,tot=0,ans;const ask=()=>{const l=L[Math.floor(Math.random()*26)];ans=String(languageMap[l]);
+const o=new Set([ans]);while(o.size<4)o.add(String(languageMap[L[Math.floor(Math.random()*26)]]));
+q.textContent=`What is the CodeChat code for ${l}?`;opts.innerHTML="";[...o].sort(()=>Math.random()-.5).forEach(v=>{const b=document.createElement("button");b.textContent=v;
+b.onclick=()=>{tot++;if(v===ans){ok++;fb.textContent="Correct!"}else fb.textContent="Incorrect. Correct answer: "+ans;pr.textContent=Math.round(ok/tot*100)+"%";ask()};opts.append(b)})};ask();</script></body></html>

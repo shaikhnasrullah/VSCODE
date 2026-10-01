@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Messages · CodeChat</title><link rel="stylesheet" href="css/style.css"></head>
+<body><div class="app"><aside class="side"><h2>CodeChat <small id="me"></small></h2>
+<form id="searchForm"><label for="q" class="muted">Search username or email</label><input id="q" placeholder="Search username or email..."><button>Search</button></form><ul id="results"></ul>
+<h3>Recent Chats</h3><ul id="list"><li class="muted">Loading…</li></ul>
+<p><a href="learn.html">Learn</a> · <button id="logout" class="btn ghost">Logout</button></p></aside>
+<section class="main"><div id="welcome" class="empty" style="margin:auto">Find a friend and press <b>Start Chat</b>.<br>Your messages are automatically converted into CodeChat numbers.</div>
+<div id="chat" hidden style="display:contents"><header><button id="back" aria-label="Back to conversations">←</button><b id="title"></b></header>
+<div id="msgs" aria-live="polite"></div><div id="preview" class="code"></div><p id="err" class="err" role="alert" style="padding:0 14px;margin:0"></p>
+<form id="sendForm" class="send"><input id="input" placeholder="Type your message..." aria-label="Message" autocomplete="off"><button id="send" aria-label="Send">➤</button></form></div></section></div>
+<script type="module" src="js/chat.js"></script></body></html>

@@ -1,0 +1,9 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign up · CodeChat</title><link rel="stylesheet" href="css/style.css"></head>
+<body><main class="wrap" style="max-width:440px"><form id="f" class="card"><h1 style="font-size:2rem">Create Account</h1>
+<label for="u">Username</label><input id="u" required autocomplete="username"><label for="e">Email</label><input id="e" type="email" required autocomplete="email">
+<label for="p">Password</label><input id="p" type="password" required autocomplete="new-password"><label for="p2">Confirm Password</label><input id="p2" type="password" required autocomplete="new-password">
+<p class="err" id="err" role="alert"></p><button id="b">Create Account</button> <a href="login.html">Login</a></form></main>
+<script type="module">import{signup,friendly}from"./js/auth.js";
+f.onsubmit=async e=>{e.preventDefault();b.disabled=true;b.textContent="Creating…";err.textContent="";
+try{await signup(u.value.trim(),e_.value,p.value,p2.value);location.href="learn.html?welcome=1"}catch(x){err.textContent=friendly(x);b.disabled=false;b.textContent="Create Account"}};
+const e_=document.getElementById("e");</script></body></html>

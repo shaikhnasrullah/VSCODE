@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login · CodeChat</title><link rel="stylesheet" href="css/style.css"></head>
+<body><main class="wrap" style="max-width:440px"><form id="f" class="card"><h1 style="font-size:2rem">Login</h1>
+<label for="e">Email</label><input id="e" type="email" required autocomplete="email"><label for="p">Password</label><input id="p" type="password" required autocomplete="current-password">
+<p class="err" id="err" role="alert"></p><button id="b">Login</button> <a href="#" id="fp">Forgot Password?</a> · <a href="signup.html">Create Account</a></form></main>
+<script type="module">import{login,resetPassword,friendly}from"./js/auth.js";
+f.onsubmit=async x=>{x.preventDefault();b.disabled=true;b.textContent="Logging in…";err.textContent="";
+try{await login(e.value,p.value);location.href="chat.html"}catch(z){err.textContent=friendly(z);b.disabled=false;b.textContent="Login"}};
+fp.onclick=async x=>{x.preventDefault();try{await resetPassword(e.value);err.textContent="Reset email sent."}catch(z){err.textContent=friendly(z)}};</script></body></html>
